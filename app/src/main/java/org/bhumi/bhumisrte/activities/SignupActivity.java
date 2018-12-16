@@ -3,9 +3,12 @@ package org.bhumi.bhumisrte.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -19,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,14 +31,27 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bhumi.bhumisrte.R;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -43,37 +60,18 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class SignupActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-
+     private final String TAG = "SIGNUP";
     // UI references.
-    @BindView(R.id.email)
-    private AutoCompleteTextView emailView;
-    @BindView(R.id.password)
-    private EditText passwordView;
-    @BindView(R.id.passwordVerify)
-    private EditText passwordVerifyView;
-    @BindView(R.id.signup_progress)
-    private View progressView;
-    @BindView(R.id.login_form)
-    private View loginFormView;
-    @BindView(R.id.phone)
-    private EditText phoneView;
-    @BindView(R.id.pin)
-    private EditText pinCodeView;
+    AutoCompleteTextView emailView;
+    EditText passwordView;
+    EditText passwordVerifyView;
+    RelativeLayout relativeLayout;
+    View progressView;
+    View loginFormView;
+    EditText phoneView;
+    EditText pinCodeView;
 
 
     private String email;
@@ -88,6 +86,14 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        emailView = findViewById(R.id.email);
+        relativeLayout = findViewById(R.id.relativeLayout);
+        passwordView = findViewById(R.id.password);
+        passwordVerifyView = findViewById(R.id.passwordVerify);
+        progressView = findViewById(R.id.signup_progress);
+        loginFormView = findViewById(R.id.login_form);
+        phoneView = findViewById(R.id.phone);
+        pinCodeView = findViewById(R.id.pin);
         // Set up the login form.
         populateAutoComplete();
 
@@ -95,8 +101,13 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptSignup();
-                    return true;
+                    try {
+                        attemptSignup();
+                        return true;
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Unable to Signup", Toast.LENGTH_SHORT);
+                    }
                 }
                 return false;
             }
@@ -106,7 +117,12 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         signUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptSignup();
+                try {
+                    attemptSignup();
+                }
+                catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "Unable to Signup", Toast.LENGTH_SHORT);
+                }
             }
         });
     }
@@ -159,7 +175,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptSignup() {
+    private void attemptSignup() throws IOException, JSONException {
 
         // Reset errors.
         emailView.setError(null);
@@ -175,8 +191,8 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         phone = phoneView.getText().toString();
         pinCode = pinCodeView.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
+       cancel = false;
+        focusView = null;
 
         // Check for a valid password, if the user entered one.
 
@@ -193,8 +209,78 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
             // Show a progress spinner, and kick off a background task to
             // perform the user signup attempt.
             showProgress(true);
-            // TODO perform signup here
+            signUp();
         }
+    }
+
+    private void signUp() throws IOException, JSONException {
+        Log.d(TAG, "signUp: Request is being built");
+        String mEmail = URLEncoder.encode(email, "UTF-8");
+        String mPhone = URLEncoder.encode(phone, "UTF-8");
+        String mPin = URLEncoder.encode(pinCode, "UTF-8");
+        String mPassword = URLEncoder.encode(password, "UTF-8");
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        RequestBody body = RequestBody.create(mediaType, "email="+mEmail+"&password="+mPassword+"&pin="+mPin+"&phone="+mPhone);
+        Request request = new Request.Builder()
+                .url("https://bhumirte.herokuapp.com/signup/")
+                .post(body)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("cache-control", "no-cache")
+                .build();
+        Log.d(TAG, "signUp: Request is being sent"+ request);
+
+        final Context context = getApplicationContext();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Failed to signup!", Toast.LENGTH_SHORT).show();
+                        showProgress(false);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody responseBody = response.body();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+
+                    if (jsonObject.getBoolean("success")) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                showProgress(false);
+                                Intent intent = new Intent(context, LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                Toast.makeText(context, "Signup successful, login now!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Failed to signup!", Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
+                        });
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void validatePhone() {
@@ -251,7 +337,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 6;
+        return password.length() > 7;
     }
 
     /**
