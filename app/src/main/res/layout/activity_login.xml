@@ -74,6 +74,16 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/forgot_password_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/transparent"
+                android:text="@string/action_forgot_password"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/sign_up_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
