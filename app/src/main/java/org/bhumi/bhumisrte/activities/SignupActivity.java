@@ -160,9 +160,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
      * errors are presented and no actual login attempt is made.
      */
     private void attemptSignup() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         emailView.setError(null);
