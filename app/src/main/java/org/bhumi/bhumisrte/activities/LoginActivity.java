@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            Toast.makeText(context, "Done!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(context, "Check your mail for further instructions!", Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -327,6 +327,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(responseBody.string());
+                    final String msg = jsonObject.getString("msg");
                     if (jsonObject.getBoolean("success")) {
                         // Successfully logged in
                         String jwt = jsonObject.getString("token");
@@ -341,22 +342,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             @Override
                             public void run() {
                                 showProgress(false);
-
                                 Intent intent = new Intent(context, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                                Toast.makeText(context, "successful signin!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                             }
                         });
-
-
-
                     }
                     else {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, "Failed to signin!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                 showProgress(false);
                             }
                         });

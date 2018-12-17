@@ -251,8 +251,8 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                 Log.d(TAG, "onResponse: "+ responseBody);
                 JSONObject jsonObject = null;
                 try {
-
                     jsonObject = new JSONObject(responseBody.string());
+                    final String msg = jsonObject.getString("msg");
                     Log.d(TAG, "onResponse: "+jsonObject);
                     if (jsonObject.getBoolean("success")) {
 
@@ -264,7 +264,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                                 Intent intent = new Intent(context, LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                                Toast.makeText(context, "Signup successful, login now!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -272,7 +272,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, "Failed to signup!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                 showProgress(false);
                             }
                         });
@@ -284,7 +284,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                         @Override
                         public void run() {
                             Toast.makeText(context, "Failed to signup!", Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "JSON-exception: ");
                             showProgress(false);
                         }
                     });
