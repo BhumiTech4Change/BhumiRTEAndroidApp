@@ -192,6 +192,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         progressView = findViewById(R.id.login_progress);
     }
 
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
+
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;

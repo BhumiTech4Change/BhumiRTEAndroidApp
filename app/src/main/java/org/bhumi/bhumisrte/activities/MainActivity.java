@@ -3,8 +3,10 @@ package org.bhumi.bhumisrte.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,6 +15,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  EditText dateOfBirthView;
     private EditText commentView;
     private  Button submit;
+    private Toolbar toolbar;
     private String parentName, phone, childName, pinCode, dateOfBirth, comment, email, token, certificates;
 
     private CheckBox incomeView, communityView, birthView, addressView;
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        toolbar = findViewById(R.id.toolbar);
         parentNameView = findViewById(R.id.parentname);
         phoneView = findViewById(R.id.phone);
         loginFormView = findViewById(R.id.form);
@@ -82,9 +87,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addressView = findViewById(R.id.addressCert);
         myCalendar = Calendar.getInstance();
 
+        setSupportActionBar(toolbar);
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("isLoggedIn", false)) {
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
 
@@ -108,9 +116,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateLabel() {
-        String myFormat = "dd-MM-yy";
+        String myFormat = "dd-MM-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dateOfBirthView.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.signout:
+                signout(); break;
+            case R.id.credit:
+                startActivity(new Intent(this, CreditActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void signout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Logout alert").setMessage("Do you really want to logout ?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("token");
+                        editor.remove("isLoggedIn");
+                        editor.remove("email");
+                        editor.commit();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void sendData() throws IOException, JSONException {

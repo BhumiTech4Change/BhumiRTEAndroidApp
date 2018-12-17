@@ -253,7 +253,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                 try {
 
                     jsonObject = new JSONObject(responseBody.string());
-
+                    Log.d(TAG, "onResponse: "+jsonObject);
                     if (jsonObject.getBoolean("success")) {
 
                         runOnUiThread(new Runnable() {
@@ -284,6 +284,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                         @Override
                         public void run() {
                             Toast.makeText(context, "Failed to signup!", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "JSON-exception: ");
                             showProgress(false);
                         }
                     });
