@@ -37,7 +37,7 @@
         </activity>
         <activity
             android:name=".activities.CreditActivity"
-            android:label="@string/title_activity_credit"
+            android:label="Credits"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

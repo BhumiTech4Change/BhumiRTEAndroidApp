@@ -12,23 +12,37 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Base.TextAppearance.AppCompat.Headline"
+        style="@style/Base.TextAppearance.AppCompat.Large"
         android:textAlignment="center"
         android:id="@+id/header"
-        android:text="Bhumi RTE Application"/>
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:text="Bhumi RTE"/>
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
         android:id="@+id/logo"
         android:layout_marginTop="20dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/bhumi"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAlignment="center"
+        android:id="@+id/tech"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/logo"
+        android:text="Tech4Change"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
+        android:layout_below="@id/tech"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
@@ -36,19 +50,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="Developed By,"
+            android:textStyle="bold"
+            android:text="Developed By"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:textAlignment="center"
-            android:text="Deepak Chethan"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Tech4Change Volunteer"
+            android:text="Deepak Chethan, Volunteer"
             />
 
 
