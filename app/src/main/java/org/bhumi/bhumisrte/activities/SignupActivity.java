@@ -248,8 +248,11 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 ResponseBody responseBody = response.body();
+                Log.d(TAG, "onResponse: "+ responseBody);
+                JSONObject jsonObject = null;
                 try {
-                    JSONObject jsonObject = new JSONObject(responseBody.string());
+
+                    jsonObject = new JSONObject(responseBody.string());
 
                     if (jsonObject.getBoolean("success")) {
 
@@ -269,7 +272,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, "Failed to signup!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Failed to signup!", Toast.LENGTH_LONG).show();
                                 showProgress(false);
                             }
                         });
@@ -277,6 +280,14 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Failed to signup!", Toast.LENGTH_LONG).show();
+                            showProgress(false);
+                        }
+                    });
+
                 }
             }
         });
@@ -286,6 +297,11 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     private void validatePhone() {
         if (TextUtils.isEmpty(phone)) {
             phoneView.setError(getString(R.string.error_field_required));
+            focusView = phoneView;
+            cancel = true;
+        }
+        if (phone.length() != 10) {
+            phoneView.setError("Invalid phone");
             focusView = phoneView;
             cancel = true;
         }

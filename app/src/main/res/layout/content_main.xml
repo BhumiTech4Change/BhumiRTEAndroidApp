@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone"
-                    android:inputType="textAutoComplete"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -87,6 +87,7 @@
             <!-- Date of Birth -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
+                android:id="@+id/dateofbirthparent"
                 android:layout_height="wrap_content">
 
                 <EditText
@@ -94,7 +95,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint=  "Date of Birth (dd-mm-yyyy)"
-                    android:inputType="date"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:inputType="none"
                     android:maxLines="1"
                     android:singleLine="true" />
 

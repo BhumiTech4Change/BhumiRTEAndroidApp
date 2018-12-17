@@ -3,7 +3,9 @@ package org.bhumi.bhumisrte.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -72,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     EditText passwordView;
     View progressView;
     Button signUpButton;
+    Button forgotPasswordButton;
 
     private String SHARED_PREFS_NAME = "user";
     private String email;
@@ -90,6 +93,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         relativeLayout = findViewById(R.id.relativeLayout);
         passwordView = findViewById(R.id.password);
         progressView = findViewById(R.id.login_progress);
+        forgotPasswordButton = findViewById(R.id.forgot_password_button);
+
         // Set up the login form.
         populateAutoComplete();
         signUpButton.setOnClickListener(new OnClickListener() {
@@ -127,6 +132,61 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Toast.makeText(getApplicationContext(), "Unable to signin", Toast.LENGTH_SHORT);
                 }
             }
+        });
+
+        forgotPasswordButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                final EditText emailView = new EditText(getApplicationContext());
+                builder.setTitle("Reset password").setCancelable(true).setMessage("Enter your email to get the instructions")
+                        .setView(emailView).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        String email = emailView.getText().toString();
+                        final Context context = getApplicationContext();
+                        if (isEmailValid(email)) {
+                            OkHttpClient client = new OkHttpClient();
+                            Request request = new Request.Builder()
+                                    .url("https://bhumirte.herokuapp.com/forgotPassword/"+URLEncoder.encode(email))
+                                    .get().addHeader("Content-Type", "application/json")
+                                    .addHeader("cache-control", "no-cache")
+                                    .build();
+                            client.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            dialog.dismiss();
+                                            Toast.makeText(context, "Unable to request for reset", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            dialog.dismiss();
+                                            Toast.makeText(context, "Done!", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                             });
+                        }
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
+
         });
         loginFormView = findViewById(R.id.login_form);
         progressView = findViewById(R.id.login_progress);
