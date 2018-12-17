@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String parentName, phone, childName, pinCode, dateOfBirth, comment, email, token, certificates;
 
     private CheckBox incomeView, communityView, birthView, addressView;
-
+    private SharedPreferences sharedPreferences;
     private Boolean cancel = false;
-    private View focusView;
     private String SHARED_PREFS_NAME = "user";
     private RelativeLayout relativeLayout;
     private View loginFormView;
     private Calendar myCalendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myCalendar = Calendar.getInstance();
 
         setSupportActionBar(toolbar);
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("isLoggedIn", false)) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -115,12 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         submit.setOnClickListener(this);
     }
 
-    private void updateLabel() {
-        String myFormat = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        dateOfBirthView.setText(sdf.format(myCalendar.getTime()));
-    }
-
+    /*
+     * Menubar menu options
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -139,9 +136,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * Displays a alert to ask if the user really wants to logout
+     */
     private void signout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Logout alert").setMessage("Do you really want to logout ?")
+        builder.setTitle("Logout").setMessage("Do you really want to logout ?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -164,7 +164,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
 
-    private void sendData() throws IOException, JSONException {
+
+    private void updateLabel() {
+        String myFormat = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        dateOfBirthView.setText(sdf.format(myCalendar.getTime()));
+    }
+
+
+
+    private void sendData() throws IOException{
         OkHttpClient client = new OkHttpClient();
         String mEmail = URLEncoder.encode(email, "UTF-8");
         String mPhone = URLEncoder.encode(phone, "UTF-8");
@@ -180,7 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showProgress(true);
         RequestBody body = RequestBody.create(mediaType, "email="+mEmail+
                 "&phone="+mPhone+"&parentName="+mParentName+"&childName="+mChildName+"+" +
-                "&dateOfBirth="+mDateOfBirth+"&pinCode="+mPinCode+"&certificate="+mCertificates+"&comment="+mComment);
+                "&dateOfBirth="+mDateOfBirth+"&pinCode="+mPinCode+"&certificate="+mCertificates+
+                "&comment="+mComment);
 
         Request request = new Request.Builder()
                 .url("https://bhumirte.herokuapp.com/form")
@@ -210,8 +220,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(responseBody.string());
-
-
                     if (jsonObject.getBoolean("success")) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -241,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /*
+    * Clears the input filed once the data is submitted
+     */
     private void clearFields() {
         childNameView.setText("");
         parentNameView.setText("");
@@ -253,7 +264,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         communityView.setChecked(false);
         birthView.setChecked(false);
     }
-
 
     /**
      * Shows the progress UI and hides the login form.
@@ -291,6 +301,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
+    * Extract the data from the input fields
+     */
     private void extractValues() {
         parentName = parentNameView.getText().toString();
         childName = childNameView.getText().toString();
@@ -298,16 +311,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pinCode = pinCodeView.getText().toString();
         dateOfBirth = dateOfBirthView.getText().toString();
         comment = commentView.getText().toString();
+        email = sharedPreferences.getString("email", null);
+        token = sharedPreferences.getString("token", null);
         certificates = "";
         if (incomeView.isChecked()) certificates +="Income Certificate, ";
         if (communityView.isChecked()) certificates += "Community Certificate, ";
         if (birthView.isChecked()) certificates += "Birth Certificate, ";
         if (addressView.isChecked()) certificates += "Address Proof.";
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME,Context.MODE_PRIVATE);
-        email = sharedPreferences.getString("email", null);
-        token = sharedPreferences.getString("token", null);
+
     }
+
+    /*
+    * Validate the inputs
+     */
     private void validateInputFields() {
         validateInputField(parentName, parentNameView);
         validateInputField(childName, childNameView);
@@ -316,18 +333,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         validateInputField(dateOfBirth, dateOfBirthView);
         if (phone.length() != 10) {
             phoneView.setError("Invalid phone number!");
-            focusView = phoneView;
             cancel = true;
         }
         // CommentView is optional
     }
 
-
-
     private void validateInputField(String value, View editTextView) {
         if (TextUtils.isEmpty(value)){
             parentNameView.setError(getString(R.string.error_field_required));
-            focusView = editTextView;
             cancel = true;
         }
     }
@@ -335,21 +348,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        cancel = false;
         extractValues();
         validateInputFields();
         if (cancel) {
-
+            Toast.makeText(getApplicationContext(), "Fix the errors and try again!", Toast.LENGTH_LONG).show();
         }
         else {
             try {
                 sendData();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(),"Unable to submit data", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }
     }
-
-
 }
