@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bhumi-RTE</string>
+    <string name="app_name">Bhumi RTE</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -15,6 +15,7 @@
         completions."
     </string>
     <string name="title_activity_signup">Sign in</string>
+    <string name="bhumi_logo_content_description">Bhumi NGO logo</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="phone">Phone</string>
     <string name="pincode">Pin Code</string>
@@ -22,8 +23,15 @@
     <string name="name_of_child">Name of Child</string>
     <string name="submit">Submit</string>
     <string name="comment">Comments (Optional)</string>
-    <string name="date_of_birth">Date of Birth</string>
+    <string name="date_of_birth">Date of Birth of Child</string>
     <string name="name_of_parent">Name of Parent</string>
     <string name="title_activity_credit">CreditActivity</string>
     <string name="action_verify_password">Verify Password</string>
+
+    <string name="signin">Signin</string>
+    <string name="signup">Signup</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="title_activity_password__reset_">Forgot Password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_know_more">Click here to know more about us</string>
 </resources>

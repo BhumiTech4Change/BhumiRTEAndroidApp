@@ -22,22 +22,23 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_below="@id/header"
         android:id="@+id/logo"
         android:layout_marginTop="20dp"
-        android:src="@drawable/bhumi"/>
+        android:src="@drawable/bhumi_logo"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/holo_orange_dark"
         android:textAlignment="center"
         android:id="@+id/tech"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/logo"
-        android:text="Tech4Change"/>
+        android:text="Tech4Change Volunteers"/>
 
     <LinearLayout
         android:layout_width="match_parent"

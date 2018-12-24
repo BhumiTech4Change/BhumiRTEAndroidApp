@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
@@ -23,7 +21,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ScrollView
+    <RelativeLayout
         android:id="@+id/form"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
@@ -34,6 +32,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="@string/bhumi_logo_content_description"
+                android:layout_margin="15dp"
+                android:src="@drawable/bhumi_logo" />
 
             <!-- Name of Parent  -->
             <android.support.design.widget.TextInputLayout
@@ -94,7 +100,7 @@
                     android:id="@+id/dateofbirth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=  "Date of Birth (dd-mm-yyyy)"
+                    android:hint=  "Date of Birth of child (dd-mm-yyyy)"
                     android:clickable="true"
                     android:editable="false"
                     android:inputType="none"
@@ -121,6 +127,78 @@
             </android.support.design.widget.TextInputLayout>
 
             <!-- Comments -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Do you have ?" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/checkbox_container">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:id="@+id/checkboxFirstLine">
+
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:checked="false"
+                    android:layout_weight="1"
+                    android:id="@+id/incomeCert"
+                    android:text="Income Certificate"
+                    android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:checked="false"
+                android:layout_weight="1"
+                android:id="@+id/communityCert"
+                android:text="Community Certificate"
+                android:layout_height="wrap_content" />
+
+
+
+            </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/checkboxSecondLine">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:checked="false"
+                android:text="Birth Certificate"
+                android:id="@+id/birthCert"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:checked="false"
+                android:id="@+id/addressCert"
+                android:layout_weight="1"
+                android:text="Current Address Proof"
+                android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -131,44 +209,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/comment"
                     android:inputType="textLongMessage"
-                 />
+                    />
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:text="Do you have ?" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_marginTop="7dp"
-                android:checked="false"
-                android:id="@+id/incomeCert"
-                android:text="Income Certificate"
-                android:layout_height="wrap_content" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:checked="false"
-                android:id="@+id/communityCert"
-                android:text="Community Certificate"
-                android:layout_height="wrap_content" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:checked="false"
-                android:text="Birth Certificate"
-                android:id="@+id/birthCert"
-                android:layout_height="wrap_content" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:checked="false"
-                android:id="@+id/addressCert"
-                android:text="Current Address Proof"
-                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/submit_button"
@@ -180,5 +223,5 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 </RelativeLayout>

@@ -335,6 +335,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             phoneView.setError("Invalid phone number!");
             cancel = true;
         }
+
+        if (pinCode.length() != 6) {
+            pinCodeView.setError("Invalid pin code!");
+            cancel = true;
+        }
         // CommentView is optional
     }
 

@@ -24,7 +24,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ScrollView
+    <RelativeLayout
         android:id="@+id/login_form"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
@@ -38,8 +38,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="@string/bhumi_logo_content_description"
+                android:layout_margin="30dp"
+                android:src="@drawable/bhumi_logo" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_margin="5dp"
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
@@ -55,6 +63,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_margin="5dp"
                 android:layout_height="wrap_content">
 
                 <EditText
@@ -71,10 +80,22 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:id="@+id/forgot_password_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/forgot_password"
+                />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="6dp"
+                android:layout_margin="5dp"
                 android:weightSum="2"
                 android:layout_height="wrap_content">
             <Button
@@ -83,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Signin"
+                android:text="@string/signin"
                 android:layout_margin="2dp"
                 android:textStyle="bold" />
 
@@ -94,24 +115,20 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="2dp"
-                android:text="Signup"
+                android:text="@string/signup"
                 android:textStyle="bold" />
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/forgot_password_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                style="@style/Base.TextAppearance.AppCompat.Small"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:id="@+id/websiteTextView"
                 android:textColor="@color/colorPrimary"
-                android:background="@android:color/transparent"
-                android:text="Forgot Password?"
-                 />
-
-
-
+                android:text="@string/action_know_more"
+                />
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 </RelativeLayout>

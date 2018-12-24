@@ -19,31 +19,57 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="Login"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.SignupActivity"
             android:label="Signup"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
+
         <activity
             android:name=".activities.CreditActivity"
             android:label="Credits"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.bhumi.bhumisrte.activities.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".activities.PasswordResetActivity"
+            android:label="Reset Password"
+            android:parentActivityName=".activities.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.bhumi.bhumisrte.activities.LoginActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.LoginActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+
+
     </application>
 
 </manifest>

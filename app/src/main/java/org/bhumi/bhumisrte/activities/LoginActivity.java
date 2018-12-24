@@ -3,15 +3,12 @@ package org.bhumi.bhumisrte.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -19,13 +16,11 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,8 +69,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     EditText passwordView;
     View progressView;
     Button signUpButton;
-    Button forgotPasswordButton;
+    TextView forgotPasswordButton;
+    Button emailSignInButton;
+    TextView websiteView;
 
+    // Data variables
     private String SHARED_PREFS_NAME = "user";
     private String email;
     private String password;
@@ -83,10 +81,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View focusView;
     private RelativeLayout relativeLayout;
     final String TAG = "SIGNIN";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Instantiate ui references
         loginFormView = findViewById(R.id.login_form);
         emailView = findViewById(R.id.email);
         signUpButton  = findViewById(R.id.sign_up_button);
@@ -94,7 +96,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         passwordView = findViewById(R.id.password);
         progressView = findViewById(R.id.login_progress);
         forgotPasswordButton = findViewById(R.id.forgot_password_button);
-
+        emailSignInButton = findViewById(R.id.email_sign_in_button);
+        loginFormView = findViewById(R.id.login_form);
+        progressView = findViewById(R.id.login_progress);
+        websiteView = findViewById(R.id.websiteTextView);
         // Set up the login form.
         populateAutoComplete();
         signUpButton.setOnClickListener(new OnClickListener() {
@@ -121,8 +126,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        websiteView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "http://rte25.bhumi.ngo/";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
+        emailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -137,59 +151,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         forgotPasswordButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                final EditText emailView = new EditText(getApplicationContext());
-                builder.setTitle("Reset password").setCancelable(true).setMessage("Enter your email to get the instructions")
-                        .setView(emailView).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(final DialogInterface dialog, int which) {
-                        String email = emailView.getText().toString();
-                        final Context context = getApplicationContext();
-                        if (isEmailValid(email)) {
-                            OkHttpClient client = new OkHttpClient();
-                            Request request = new Request.Builder()
-                                    .url("https://bhumirte.herokuapp.com/forgotPassword/"+URLEncoder.encode(email))
-                                    .get().addHeader("Content-Type", "application/json")
-                                    .addHeader("cache-control", "no-cache")
-                                    .build();
-                            client.newCall(request).enqueue(new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            dialog.dismiss();
-                                            Toast.makeText(context, "Unable to request for reset", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                }
-
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            dialog.dismiss();
-                                            Toast.makeText(context, "Check your mail for further instructions!", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                             });
-                        }
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
+                startActivity(new Intent(getApplicationContext(), PasswordResetActivity.class));
             }
-
         });
-        loginFormView = findViewById(R.id.login_form);
-        progressView = findViewById(R.id.login_progress);
+
     }
 
     @Override
@@ -341,7 +306,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showProgress(false);
                                 Intent intent = new Intent(context, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
@@ -456,7 +420,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         emailView.setAdapter(adapter);
     }
-
 
     private interface ProfileQuery {
         String[] PROJECTION = {
