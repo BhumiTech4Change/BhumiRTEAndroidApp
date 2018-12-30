@@ -24,7 +24,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ScrollView
+    <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,15 +37,14 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:contentDescription="@string/bhumi_logo_content_description"
-                android:layout_margin="30dp"
+                android:layout_margin="15dp"
                 android:src="@drawable/bhumi_logo" />
 
             <!-- Email  -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_margin="5dp"
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
@@ -61,7 +60,6 @@
 
             <!-- Phone -->
             <android.support.design.widget.TextInputLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -79,7 +77,6 @@
 
             <!-- Pin Code -->
             <android.support.design.widget.TextInputLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -96,7 +93,6 @@
 
             <!-- Password -->
             <android.support.design.widget.TextInputLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -116,7 +112,6 @@
 
             <!-- Password Verify -->
             <android.support.design.widget.TextInputLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -144,5 +139,5 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 </RelativeLayout>

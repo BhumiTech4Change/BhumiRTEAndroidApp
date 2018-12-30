@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
+import org.bhumi.bhumisrte.config.Endpoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,6 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Boolean cancel;
     private View focusView;
     private RelativeLayout relativeLayout;
+    private String endpoint;
     final String TAG = "SIGNIN";
 
 
@@ -87,6 +89,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //initialize data
+        endpoint = Endpoint.getInstance().getEndpoint();
 
         // Instantiate ui references
         loginFormView = findViewById(R.id.login_form);
@@ -100,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         loginFormView = findViewById(R.id.login_form);
         progressView = findViewById(R.id.login_progress);
         websiteView = findViewById(R.id.websiteTextView);
+
         // Set up the login form.
         populateAutoComplete();
         signUpButton.setOnClickListener(new OnClickListener() {
@@ -273,7 +279,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "email="+mEmail+"&password="+mPassword);
         Request request = new Request.Builder()
-                .url("https://bhumirte.herokuapp.com/signin/")
+                .url(endpoint+"/signin/")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("cache-control", "no-cache")

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bhumi.bhumisrte.R;
+import org.bhumi.bhumisrte.config.Endpoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,7 +73,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     View loginFormView;
     EditText phoneView;
     EditText pinCodeView;
-
+    private View focusView;
 
     private String email;
     private String password;
@@ -80,12 +81,16 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     private String phone;
     private String pinCode;
     private Boolean cancel;
-    private View focusView;
+    private String endpoint;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        endpoint = Endpoint.getInstance().getEndpoint();
+
         emailView = findViewById(R.id.email);
         relativeLayout = findViewById(R.id.relativeLayout);
         passwordView = findViewById(R.id.password);
@@ -224,7 +229,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "email="+mEmail+"&password="+mPassword+"&pin="+mPin+"&phone="+mPhone);
         Request request = new Request.Builder()
-                .url("https://bhumirte.herokuapp.com/signup/")
+                .url(endpoint+"/signup/")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("cache-control", "no-cache")

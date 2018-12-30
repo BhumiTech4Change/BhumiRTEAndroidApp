@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
+import org.bhumi.bhumisrte.config.Endpoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout relativeLayout;
     private View loginFormView;
     private Calendar myCalendar;
+    private String endpoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         communityView = findViewById(R.id.communityCert);
         birthView = findViewById(R.id.birthCert);
         addressView = findViewById(R.id.addressCert);
+        endpoint = Endpoint.getInstance().getEndpoint();
         myCalendar = Calendar.getInstance();
 
         setSupportActionBar(toolbar);
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 "&comment="+mComment);
 
         Request request = new Request.Builder()
-                .url("https://bhumirte.herokuapp.com/form")
+                .url(endpoint+"/form")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Authorization", "Bearer "+mToken)
@@ -220,13 +223,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(responseBody.string());
+                    final String msg = jsonObject.getString("msg");
                     if (jsonObject.getBoolean("success")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 showProgress(false);
                                 clearFields();
-                                Snackbar snackbar = Snackbar.make(relativeLayout, "Succuessfully Submitted!", Snackbar.LENGTH_INDEFINITE);
+                                Snackbar snackbar = Snackbar.make(relativeLayout, msg, Snackbar.LENGTH_INDEFINITE);
                                 snackbar.show();
                             }
                         });
@@ -236,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void run() {
                                 showProgress(false);
-                                Snackbar snackbar = Snackbar.make(relativeLayout, "Failed to submit!", Snackbar.LENGTH_INDEFINITE);
+                                Snackbar snackbar = Snackbar.make(relativeLayout, msg, Snackbar.LENGTH_INDEFINITE);
                                 snackbar.show();
                             }
                         });

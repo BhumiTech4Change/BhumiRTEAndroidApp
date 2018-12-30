@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bhumi.bhumisrte.R;
+import org.bhumi.bhumisrte.config.Endpoint;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,14 +57,18 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
     private AutoCompleteTextView mEmailView;
     private View mProgressView;
     private View mLoginFormView;
+    private String endpoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         setupActionBar();
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
+        mEmailView = findViewById(R.id.email);
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        endpoint = Endpoint.getInstance().getEndpoint();
         populateAutoComplete();
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -74,8 +79,6 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
     private void populateAutoComplete() {
@@ -170,10 +173,9 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
     private void tryResetPassword(String email) {
 
         final Context context = getApplicationContext();
-
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url("https://bhumirte.herokuapp.com/forgotPassword/" + URLEncoder.encode(email))
+                    .url(endpoint+"/forgotPassword/" + URLEncoder.encode(email))
                     .get().addHeader("Content-Type", "application/json")
                     .addHeader("cache-control", "no-cache")
                     .build();
@@ -185,6 +187,7 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
                         @Override
                         public void run() {
                             Toast.makeText(context, "Unable to request for reset", Toast.LENGTH_LONG).show();
+                            showProgress(false);
                         }
                     });
                 }
@@ -197,18 +200,20 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
                             ResponseBody  body = response.body();
                             try {
                                 JSONObject jsonObject = new JSONObject(body.string());
+                                String msg = jsonObject.getString("msg");
                                 if (jsonObject.getBoolean("success")){
-                                    Toast.makeText(context, "Check your mail for further instructions!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(PasswordResetActivity.this, LoginActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 }
                                 else {
                                     Toast.makeText(context, "Server is busy, try again ?", Toast.LENGTH_LONG).show();
+                                    showProgress(false);
                                 }
                             } catch (Exception e) {
-                                e.printStackTrace();
                                 Toast.makeText(context, "Server is busy, try again ?", Toast.LENGTH_LONG).show();
+                                showProgress(false);
                             }
 
                         }
