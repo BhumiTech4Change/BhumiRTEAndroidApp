@@ -40,4 +40,5 @@
     <string name="label_community_cert">Community Certificate</string>
     <string name="label_birth_cert">Birth Certificate</string>
     <string name="label_address_proof">Current Address Proof</string>
+    <string name="title_activity_feedback">FeedbackActivity</string>
 </resources>

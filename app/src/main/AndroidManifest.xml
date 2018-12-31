@@ -20,32 +20,25 @@
             android:name=".activities.LoginActivity"
             android:label="Login"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.SignupActivity"
             android:label="Signup"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.CreditActivity"
             android:label="Credits"
-            android:screenOrientation="portrait"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.bhumi.bhumisrte.activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".activities.PasswordResetActivity"
             android:label="Reset Password"
@@ -54,22 +47,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.bhumi.bhumisrte.activities.LoginActivity" />
         </activity>
-
         <activity
             android:name=".activities.SplashScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.LoginActivity">
-
+            android:parentActivityName=".activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-
-
+        <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="@string/title_activity_feedback"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.bhumi.bhumisrte.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

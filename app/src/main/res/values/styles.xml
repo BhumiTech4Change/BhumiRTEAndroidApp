@@ -15,6 +15,7 @@
     <style name="splashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/bhumi_logo</item>
     </style>
+
     <style name="buttonStyle" parent="AppTheme">
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorWhite</item>

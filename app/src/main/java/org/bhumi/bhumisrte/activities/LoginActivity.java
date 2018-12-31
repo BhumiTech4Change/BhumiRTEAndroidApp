@@ -278,8 +278,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void signIn() throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
 
-        String mEmail = URLEncoder.encode(email, "UTF-8");
-        String mPassword = URLEncoder.encode(password, "UTF-8");
+        String mEmail = URLEncoder.encode(email, "UTF-8").replace("+","%20");
+        String mPassword = URLEncoder.encode(password, "UTF-8").replace("+","%20");
         final Context context = getApplicationContext();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");

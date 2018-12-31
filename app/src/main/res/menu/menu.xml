@@ -10,6 +10,11 @@
     </item>
 
     <item
+        android:id="@+id/feedback"
+        android:orderInCategory="100"
+        android:title="Give Feedback"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/signout"
         android:orderInCategory="100"
         android:title="Signout"

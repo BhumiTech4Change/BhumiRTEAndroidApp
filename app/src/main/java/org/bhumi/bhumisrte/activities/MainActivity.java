@@ -135,6 +135,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.credit:
                 startActivity(new Intent(this, CreditActivity.class));
                 break;
+            case R.id.feedback:
+                startActivity(new Intent(this, FeedbackActivity.class));
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -178,15 +182,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void sendData() throws IOException{
         OkHttpClient client = new OkHttpClient();
-        String mEmail = URLEncoder.encode(email, "UTF-8");
-        String mPhone = URLEncoder.encode(phone, "UTF-8");
-        String mParentName = URLEncoder.encode(parentName, "UTF-8");
-        String mChildName = URLEncoder.encode(childName, "UTF-8");
-        String mDateOfBirth = URLEncoder.encode(dateOfBirth, "UTF-8");
-        String mComment = URLEncoder.encode(comment, "UTF-8");
-        String mPinCode = URLEncoder.encode(pinCode, "UTF-8");
-        String mToken = URLEncoder.encode(token, "UTF-8");
-        String mCertificates = URLEncoder.encode(certificates, "UTF-8");
+        String mEmail = URLEncoder.encode(email, "UTF-8").replace("+","%20");
+        String mPhone = URLEncoder.encode(phone, "UTF-8").replace("+","%20");
+        String mParentName = URLEncoder.encode(parentName, "UTF-8").replace("+","%20");
+        String mChildName = URLEncoder.encode(childName, "UTF-8").replace("+","%20");
+        String mDateOfBirth = URLEncoder.encode(dateOfBirth, "UTF-8").replace("+","%20");
+        String mComment = URLEncoder.encode(comment, "UTF-8").replace("+","%20");
+        String mPinCode = URLEncoder.encode(pinCode, "UTF-8").replace("+","%20");
+        String mToken = URLEncoder.encode(token, "UTF-8").replace("+","%20");
+        String mCertificates = URLEncoder.encode(certificates, "UTF-8").replace("+","%20");
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         showProgress(true);
@@ -337,12 +341,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         validateInputField(pinCode, pinCodeView);
         validateInputField(dateOfBirth, dateOfBirthView);
         if (phone.length() != 10) {
-            phoneView.setError("Invalid phone number!");
+            phoneView.setError("Enter 10 digit phone number");
             cancel = true;
         }
 
         if (pinCode.length() != 6) {
-            pinCodeView.setError("Invalid pin code!");
+            pinCodeView.setError("Enter 6 digit pin code");
             cancel = true;
         }
         // CommentView is optional

@@ -216,10 +216,10 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     private void signUp() throws IOException, JSONException {
-        String mEmail = URLEncoder.encode(email, "UTF-8");
-        String mPhone = URLEncoder.encode(phone, "UTF-8");
-        String mPin = URLEncoder.encode(pinCode, "UTF-8");
-        String mPassword = URLEncoder.encode(password, "UTF-8");
+        String mEmail = URLEncoder.encode(email, "UTF-8").replace("+","%20");
+        String mPhone = URLEncoder.encode(phone, "UTF-8").replace("+","%20");
+        String mPin = URLEncoder.encode(pinCode, "UTF-8").replace("+","%20");
+        String mPassword = URLEncoder.encode(password, "UTF-8").replace("+","%20");
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -297,7 +297,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
             cancel = true;
         }
         if (phone.length() != 10) {
-            phoneView.setError("Invalid phone");
+            phoneView.setError("Enter 10 digit phone number");
             focusView = phoneView;
             cancel = true;
         }
@@ -306,6 +306,12 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     private void validatePin() {
         if (TextUtils.isEmpty(pinCode)) {
             pinCodeView.setError(getString(R.string.error_field_required));
+            focusView = pinCodeView;
+            cancel = true;
+        }
+
+        if (pinCode.length() != 6) {
+            phoneView.setError("Enter 6 digit pin code");
             focusView = pinCodeView;
             cancel = true;
         }
