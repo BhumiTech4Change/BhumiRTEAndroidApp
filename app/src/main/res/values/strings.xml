@@ -6,12 +6,11 @@
     <string name="prompt_password">Password</string>
     <string name="action_forgot_password">Forgot password?</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_short_password">Password must have atleast 8 characters</string>
     <string name="error_password_doesnt_match"> Passwords does not match</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions for signing up."
+        completions."
     </string>
     <string name="title_activity_signup">Sign in</string>
     <string name="bhumi_logo_content_description">Bhumi NGO logo</string>

@@ -325,17 +325,29 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     private void validatePassword() {
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            passwordView.setError(getString(R.string.error_invalid_password));
+
+        if (TextUtils.isEmpty(password)) {
+            passwordView.setError(getString(R.string.error_field_required));
+            focusView = passwordView;
+            cancel = true;
+        }
+        else if (!isPasswordValid(password)) {
+            passwordView.setError(getString(R.string.error_short_password));
             focusView = passwordView;
             cancel = true;
         }
 
-        if (!TextUtils.isEmpty(passwordVerify) && !isPasswordValid(passwordVerify)) {
+        if (TextUtils.isEmpty(passwordVerify)) {
             passwordVerifyView.setError(getString(R.string.error_field_required));
             focusView = passwordVerifyView;
             cancel = true;
         }
+        else if (!isPasswordValid(passwordVerify)) {
+            passwordView.setError(getString(R.string.error_short_password));
+            focusView = passwordView;
+            cancel = true;
+        }
+
 
         if (!password.equals(passwordVerify)) {
             passwordVerifyView.setError(getString(R.string.error_password_doesnt_match));
