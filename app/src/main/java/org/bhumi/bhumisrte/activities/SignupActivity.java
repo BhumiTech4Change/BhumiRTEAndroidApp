@@ -16,13 +16,10 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -219,7 +216,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     private void signUp() throws IOException, JSONException {
-        Log.d(TAG, "signUp: Request is being built");
         String mEmail = URLEncoder.encode(email, "UTF-8");
         String mPhone = URLEncoder.encode(phone, "UTF-8");
         String mPin = URLEncoder.encode(pinCode, "UTF-8");
@@ -234,7 +230,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("cache-control", "no-cache")
                 .build();
-        Log.d(TAG, "signUp: Request is being sent"+ request);
 
         final Context context = getApplicationContext();
         client.newCall(request).enqueue(new Callback() {
@@ -253,18 +248,16 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 ResponseBody responseBody = response.body();
-                Log.d(TAG, "onResponse: "+ responseBody);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(responseBody.string());
                     final String msg = jsonObject.getString("msg");
-                    Log.d(TAG, "onResponse: "+jsonObject);
+
                     if (jsonObject.getBoolean("success")) {
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
                                 showProgress(false);
                                 Intent intent = new Intent(context, LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -272,7 +265,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
-
                     }else {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -281,14 +273,13 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                                 showProgress(false);
                             }
                         });
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "Failed to signup!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Something went wrong, please report to us!", Toast.LENGTH_LONG).show();
                             showProgress(false);
                         }
                     });

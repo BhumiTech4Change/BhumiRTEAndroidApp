@@ -1,0 +1,4 @@
+#!/bin/bash
+cp ../../app/release/app-release.apk bhumi-rte.apk && echo "Successfully moved"
+
+

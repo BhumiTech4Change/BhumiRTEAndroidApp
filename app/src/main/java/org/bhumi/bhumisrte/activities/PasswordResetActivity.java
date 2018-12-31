@@ -208,11 +208,11 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
                                     startActivity(intent);
                                 }
                                 else {
-                                    Toast.makeText(context, "Server is busy, try again ?", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                                     showProgress(false);
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(context, "Server is busy, try again ?", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Something went wrong, please report to us!", Toast.LENGTH_LONG).show();
                                 showProgress(false);
                             }
 

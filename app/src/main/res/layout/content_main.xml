@@ -11,7 +11,7 @@
 
 
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/form"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
@@ -90,12 +90,13 @@
                     android:id="@+id/dateofbirth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=  "Date of Birth of child (dd-mm-yyyy)"
+                    android:hint=  "@string/label_dob"
                     android:clickable="true"
                     android:editable="false"
                     android:inputType="none"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:importantForAutofill="no" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -123,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:text="Do you have ?" />
+                android:text="@string/label_check_boxes" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,7 +147,7 @@
                     android:checked="false"
                     android:layout_weight="1"
                     android:id="@+id/incomeCert"
-                    android:text="Income Certificate"
+                    android:text="@string/label_income_cert"
                     android:layout_height="wrap_content" />
 
             <CheckBox
@@ -154,7 +155,7 @@
                 android:checked="false"
                 android:layout_weight="1"
                 android:id="@+id/communityCert"
-                android:text="Community Certificate"
+                android:text="@string/label_community_cert"
                 android:layout_height="wrap_content" />
 
 
@@ -172,7 +173,7 @@
             <CheckBox
                 android:layout_width="match_parent"
                 android:checked="false"
-                android:text="Birth Certificate"
+                android:text="@string/label_birth_cert"
                 android:id="@+id/birthCert"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
@@ -182,7 +183,7 @@
                 android:checked="false"
                 android:id="@+id/addressCert"
                 android:layout_weight="1"
-                android:text="Current Address Proof"
+                android:text="@string/label_address_proof"
                 android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -213,5 +214,5 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

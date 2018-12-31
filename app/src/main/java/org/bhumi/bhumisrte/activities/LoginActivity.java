@@ -329,7 +329,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         });
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Toast.makeText(context, "Something went wrong, please report to us", Toast.LENGTH_LONG).show();
                 }
 
             }

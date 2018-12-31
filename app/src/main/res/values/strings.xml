@@ -4,15 +4,14 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_forgot_password">Forgot Passoword</string>
+    <string name="action_forgot_password">Forgot password?</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_password_doesnt_match">This password does not match</string>
+    <string name="error_password_doesnt_match"> Passwords does not match</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+        completions for signing up."
     </string>
     <string name="title_activity_signup">Sign in</string>
     <string name="bhumi_logo_content_description">Bhumi NGO logo</string>
@@ -33,5 +32,13 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="title_activity_password__reset_">Forgot Password</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="action_know_more">Click here to know more about us</string>
+    <string name="action_know_more">Click to know more</string>
+    <string name="forgot_password_instructions">Please enter your registered email to get the password reset link.</string>
+    <string name="action_reset_password">Reset password</string>
+    <string name="label_dob">Date of Birth of child (dd-mm-yyyy)</string>
+    <string name="label_check_boxes">Do you have ?</string>
+    <string name="label_income_cert">Income Certificate</string>
+    <string name="label_community_cert">Community Certificate</string>
+    <string name="label_birth_cert">Birth Certificate</string>
+    <string name="label_address_proof">Current Address Proof</string>
 </resources>

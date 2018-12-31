@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         Snackbar snackbar = Snackbar.make(relativeLayout,
-                                "Failed to submit !", Snackbar.LENGTH_INDEFINITE);
+                                "Failed to submit !", Snackbar.LENGTH_SHORT);
                         snackbar.show();
                         showProgress(false);
                     }
@@ -224,13 +224,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     jsonObject = new JSONObject(responseBody.string());
                     final String msg = jsonObject.getString("msg");
+
                     if (jsonObject.getBoolean("success")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 showProgress(false);
                                 clearFields();
-                                Snackbar snackbar = Snackbar.make(relativeLayout, msg, Snackbar.LENGTH_INDEFINITE);
+                                Snackbar snackbar = Snackbar.make(relativeLayout, msg, Snackbar.LENGTH_SHORT);
                                 snackbar.show();
                             }
                         });
@@ -240,13 +241,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void run() {
                                 showProgress(false);
-                                Snackbar snackbar = Snackbar.make(relativeLayout, msg, Snackbar.LENGTH_INDEFINITE);
+                                Snackbar snackbar = Snackbar.make(relativeLayout, msg, Snackbar.LENGTH_SHORT);
                                 snackbar.show();
                             }
                         });
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                   Toast.makeText(getApplicationContext(), "Something went wrong, please report to us!", Toast.LENGTH_LONG).show();
                 }
             }
         });
