@@ -49,9 +49,13 @@
     <string name="forgot_password_instructions">Please enter your registered email to get the password reset link.</string>
     <string name="bhumi_logo_content_description">Bhumi NGO logo</string>
 
-
-
-
+    <!-- menu options -->
+    <string name="option_singout">Signout</string>
+    <string name="option_give_feedback">Give Feedback</string>
+    <string name="option_credits">Credits</string>
+    <string name="reset_password_instruction">Please provide your valuable feedback to improve this application</string>
+    <string name="text_developed_by">Developed By</string>
+    <string name="developer_name_deepak_chethan">Deepak Chethan, Volunteer</string>
 
 
 </resources>

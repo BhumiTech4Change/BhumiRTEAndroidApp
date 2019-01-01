@@ -18,7 +18,7 @@
             android:background="@color/colorPrimary"
             app:titleTextColor="@color/colorWhite"
             android:id="@+id/toolbar"
-            android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+            android:layout_height="wrap_content" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -28,7 +28,6 @@
         android:layout_below="@id/appbarlayout"
         />
 
-    <!-- Login progress -->
     <ProgressBar
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleLarge"

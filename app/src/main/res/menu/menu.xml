@@ -4,20 +4,18 @@
     >
     <item
         android:id="@+id/credit"
-        android:orderInCategory="100"
-        android:title="Credits"
+        android:title="@string/option_credits"
         app:showAsAction="never">
     </item>
 
     <item
         android:id="@+id/feedback"
-        android:orderInCategory="100"
-        android:title="Give Feedback"
+        android:title="@string/option_give_feedback"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/signout"
-        android:orderInCategory="100"
-        android:title="Signout"
+        android:title="@string/option_singout"
         app:showAsAction="never">
     </item>
 

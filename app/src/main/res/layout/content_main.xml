@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:contentDescription="@string/bhumi_logo_content_description"
-                android:layout_margin="15dp"
+                android:layout_margin="@dimen/default_margin"
                 android:src="@drawable/bhumi_logo" />
 
             <!-- Name of Parent  -->
@@ -95,8 +95,7 @@
                     android:editable="false"
                     android:inputType="none"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:importantForAutofill="no" />
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 

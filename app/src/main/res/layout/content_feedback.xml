@@ -6,8 +6,13 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.FeedbackActivity"
-    android:padding="16dp"
+    android:padding="@dimen/default_margin"
     tools:showIn="@layout/activity_feedback">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/feedback_form"
+        android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="match_parent"
@@ -24,9 +29,9 @@
         android:id="@+id/details"
         android:layout_below="@id/header"
         android:textAlignment="center"
-        android:text="Please provide your valuable feedback to improve this application"
+        android:text="@string/reset_password_instruction"
         style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/default_margin"
         />
 
     <EditText
@@ -34,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/feedback_edittext"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/default_margin"
         android:maxLines="30"/>
 
     <Button
@@ -42,18 +47,21 @@
         android:layout_height="wrap_content"
         style="@style/buttonStyle"
         android:text="@string/button_submit"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/default_margin"
         android:id="@+id/feedback_submit_button"
         android:layout_below="@id/feedback_edittext"
         />
+
+
+
+    </RelativeLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:visibility="gone"
         android:id="@+id/progress"
-        android:layout_below="@id/feedback_submit_button"/>
+      />
 
 </RelativeLayout>
