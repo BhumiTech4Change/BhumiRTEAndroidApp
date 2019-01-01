@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/buttonStyle"
-        android:text="@string/submit"
+        android:text="@string/button_submit"
         android:layout_marginTop="16dp"
         android:id="@+id/feedback_submit_button"
         android:layout_below="@id/feedback_edittext"

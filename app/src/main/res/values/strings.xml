@@ -1,44 +1,57 @@
 <resources>
     <string name="app_name">Bhumi RTE</string>
 
-    <!-- Strings related to login -->
+    <!-- Activity titles -->
+    <string name="title_activity_main">Main Activity</string>
+    <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="title_activity_signup">Sign in</string>
+    <string name="title_activity_credit">Credits</string>
+    <string name="title_activity_password_reset">Forgot Password</string>
+
+    <!-- Labels of various input fields -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_forgot_password">Forgot password?</string>
+    <string name="prompt_phone">Phone</string>
+    <string name="prompt_pincode">Pin Code</string>
+    <string name="prompt_comment">Comments (Optional)</string>
+    <string name="prompt_date_of_birth">Date of Birth of Child</string>
+    <string name="prompt_name_of_parent">Name of Parent</string>
+    <string name="prompt_name_of_child">Name of Child</string>
+    <string name="prompt_dob">Date of Birth of child (dd-mm-yyyy)</string>
+    <string name="prompt_check_boxes">Do you have ?</string>
+    <string name="prompt_checkbox_income_certificate">Income Certificate</string>
+    <string name="prompt_checkbox_community_certificate">Community Certificate</string>
+    <string name="prompt_checkbox_birth_certificate">Birth Certificate</string>
+    <string name="prompt_checkbox_address_proof">Current Address Proof</string>
+    <string name="prompt_verify_password">Verify Password</string>
+
+    <!-- Error texts -->
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_short_password">Password must have atleast 8 characters</string>
-    <string name="error_password_doesnt_match"> Passwords does not match</string>
+    <string name="error_password_doesnt_match"> Passwords don\'t match</string>
     <string name="error_field_required">This field is required</string>
+
+
+    <!-- Button labels -->
+    <string name="button_sign_up">Sign Up</string>
+    <string name="button_submit">Submit</string>
+    <string name="button_signin">Signin</string>
+    <string name="button_signup">Signup</string>
+    <string name="button_forgot_password">Forgot password?</string>
+    <string name="button_know_more">Click to know more</string>
+    <string name="button_reset_password">Reset password</string>
+
+
+    <!-- Instructions and descriptions-->
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_signup">Sign in</string>
-    <string name="bhumi_logo_content_description">Bhumi NGO logo</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="phone">Phone</string>
-    <string name="pincode">Pin Code</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="name_of_child">Name of Child</string>
-    <string name="submit">Submit</string>
-    <string name="comment">Comments (Optional)</string>
-    <string name="date_of_birth">Date of Birth of Child</string>
-    <string name="name_of_parent">Name of Parent</string>
-    <string name="title_activity_credit">CreditActivity</string>
-    <string name="action_verify_password">Verify Password</string>
-
-    <string name="signin">Signin</string>
-    <string name="signup">Signup</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="title_activity_password__reset_">Forgot Password</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_know_more">Click to know more</string>
     <string name="forgot_password_instructions">Please enter your registered email to get the password reset link.</string>
-    <string name="action_reset_password">Reset password</string>
-    <string name="label_dob">Date of Birth of child (dd-mm-yyyy)</string>
-    <string name="label_check_boxes">Do you have ?</string>
-    <string name="label_income_cert">Income Certificate</string>
-    <string name="label_community_cert">Community Certificate</string>
-    <string name="label_birth_cert">Birth Certificate</string>
-    <string name="label_address_proof">Current Address Proof</string>
-    <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="bhumi_logo_content_description">Bhumi NGO logo</string>
+
+
+
+
+
+
 </resources>

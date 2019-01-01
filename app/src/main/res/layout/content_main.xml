@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/default_margin"
+    android:paddingRight="@dimen/default_margin"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
@@ -40,7 +40,7 @@
                     android:id="@+id/parentname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name_of_parent"
+                    android:hint="@string/prompt_name_of_parent"
                     android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -56,7 +56,7 @@
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone"
+                    android:hint="@string/prompt_phone"
                     android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -73,7 +73,7 @@
                     android:id="@+id/childname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name_of_child"
+                    android:hint="@string/prompt_name_of_child"
                     android:inputType="textAutoComplete"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -90,7 +90,7 @@
                     android:id="@+id/dateofbirth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=  "@string/label_dob"
+                    android:hint=  "@string/prompt_dob"
                     android:clickable="true"
                     android:editable="false"
                     android:inputType="none"
@@ -110,7 +110,7 @@
                     android:id="@+id/pincode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/pincode"
+                    android:hint="@string/prompt_pincode"
                     android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:text="@string/label_check_boxes" />
+                android:text="@string/prompt_check_boxes" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,7 +147,7 @@
                     android:checked="false"
                     android:layout_weight="1"
                     android:id="@+id/incomeCert"
-                    android:text="@string/label_income_cert"
+                    android:text="@string/prompt_checkbox_income_certificate"
                     android:layout_height="wrap_content" />
 
             <CheckBox
@@ -155,7 +155,7 @@
                 android:checked="false"
                 android:layout_weight="1"
                 android:id="@+id/communityCert"
-                android:text="@string/label_community_cert"
+                android:text="@string/prompt_checkbox_community_certificate"
                 android:layout_height="wrap_content" />
 
 
@@ -173,7 +173,7 @@
             <CheckBox
                 android:layout_width="match_parent"
                 android:checked="false"
-                android:text="@string/label_birth_cert"
+                android:text="@string/prompt_checkbox_birth_certificate"
                 android:id="@+id/birthCert"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
@@ -183,7 +183,7 @@
                 android:checked="false"
                 android:id="@+id/addressCert"
                 android:layout_weight="1"
-                android:text="@string/label_address_proof"
+                android:text="@string/prompt_checkbox_address_proof"
                 android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -198,7 +198,7 @@
                     android:id="@+id/comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/comment"
+                    android:hint="@string/prompt_comment"
                     android:inputType="textLongMessage"
                     />
             </android.support.design.widget.TextInputLayout>
@@ -210,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/submit"
+                android:text="@string/button_submit"
                 android:textStyle="bold" />
 
         </LinearLayout>
