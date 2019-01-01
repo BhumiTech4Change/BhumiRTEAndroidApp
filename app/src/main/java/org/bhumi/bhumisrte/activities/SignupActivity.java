@@ -39,6 +39,7 @@ import java.util.List;
 
 import org.bhumi.bhumisrte.R;
 import org.bhumi.bhumisrte.config.Endpoint;
+import org.bhumi.bhumisrte.config.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,15 +53,13 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import static android.Manifest.permission.READ_CONTACTS;
-
 /**
- * A Signup screen, with email, phone, pin
+ * A Signup screen logic
  */
-public class SignupActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class SignupActivity extends AppCompatActivity implements  OnClickListener {
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
-     private final String TAG = "SIGNUP";
     // UI references.
     AutoCompleteTextView emailView;
     EditText passwordView;
@@ -69,9 +68,11 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     View progressView;
     View loginFormView;
     EditText phoneView;
+    Button signUpButton;
     EditText pinCodeView;
     private View focusView;
 
+    // Data containers
     private String email;
     private String password;
     private String passwordVerify;
@@ -79,6 +80,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
     private String pinCode;
     private Boolean cancel;
     private String endpoint;
+    private Validator validator;
 
 
     @Override
@@ -86,8 +88,10 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        endpoint = Endpoint.getInstance().getEndpoint();
+        validator = Validator.getInstance(getApplicationContext());
+        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
 
+        // Instantiate the views
         emailView = findViewById(R.id.email);
         relativeLayout = findViewById(R.id.relativeLayout);
         passwordView = findViewById(R.id.password);
@@ -96,81 +100,23 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         loginFormView = findViewById(R.id.login_form);
         phoneView = findViewById(R.id.phone);
         pinCodeView = findViewById(R.id.pin);
+        signUpButton = findViewById(R.id.sign_up_button);
+
+
         // Set up the login form.
-        populateAutoComplete();
 
-        passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    try {
-                        attemptSignup();
-                        return true;
-                    }
-                    catch (Exception e){
-                        Toast.makeText(getApplicationContext(), "Unable to Signup", Toast.LENGTH_SHORT);
-                    }
-                }
-                return false;
-            }
-        });
-
-        Button signUpButton = (Button) findViewById(R.id.sign_up_button);
-        signUpButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    attemptSignup();
-                }
-                catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "Unable to Signup", Toast.LENGTH_SHORT);
-                }
-            }
-        });
+        signUpButton.setOnClickListener(this);
     }
 
-    private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(emailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
+    public void onClick(View v) {
+        try {
+            attemptSignup();
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Something went wrong, please report to us", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -179,51 +125,58 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
      */
     private void attemptSignup() throws IOException, JSONException {
 
+        initLogin();
+        extractInputs();
+        validateInputs();
+
+        if (validator.isOkay()) {
+            showProgress(true);
+            signUp();
+        }
+    }
+
+    private void initLogin() {
         // Reset errors.
+        validator.reset();
         emailView.setError(null);
         passwordView.setError(null);
         passwordVerifyView.setError(null);
         pinCodeView.setError(null);
         phoneView.setError(null);
+    }
 
+    private void extractInputs() {
         // Store values at the time of the login attempt.
         email = emailView.getText().toString();
         password = passwordView.getText().toString();
         passwordVerify = passwordVerifyView.getText().toString();
         phone = phoneView.getText().toString();
         pinCode = pinCodeView.getText().toString();
-
-       cancel = false;
-        focusView = null;
-
-        // Check for a valid password, if the user entered one.
-
-        validatePhone();
-        validatePin();
-        validateEmail();
-        validatePassword();
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user signup attempt.
-            showProgress(true);
-            signUp();
-        }
     }
 
-    private void signUp() throws IOException, JSONException {
-        String mEmail = URLEncoder.encode(email, "UTF-8").replace("+","%20");
-        String mPhone = URLEncoder.encode(phone, "UTF-8").replace("+","%20");
-        String mPin = URLEncoder.encode(pinCode, "UTF-8").replace("+","%20");
-        String mPassword = URLEncoder.encode(password, "UTF-8").replace("+","%20");
-        OkHttpClient client = new OkHttpClient();
+    private void validateInputs() {
+        // validate all inputs
+        validator.validatePhone(phone, phoneView);
+        validator.validatePin(pinCode, pinCodeView);
+        validator.validateEmail(email, emailView);
+        validator.validatePassword(password, passwordView);
+        validator.validatePassword(passwordVerify, passwordVerifyView);
+        validator.checkPasswordsMatch(password, passwordVerify, passwordVerifyView);
+    }
 
+    private void signUp() throws IOException {
+
+
+        final Context context = getApplicationContext();
+        // Construct the post request
+        OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "email="+mEmail+"&password="+mPassword+"&pin="+mPin+"&phone="+mPhone);
+
+        RequestBody body = RequestBody.create(mediaType, "email="+validator.encode(email)+
+                "&password="+validator.encode(password)+
+                "&pin="+validator.encode(pinCode)+
+                "&phone="+validator.encode(phone));
+
         Request request = new Request.Builder()
                 .url(endpoint+"/signup/")
                 .post(body)
@@ -231,14 +184,13 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                 .addHeader("cache-control", "no-cache")
                 .build();
 
-        final Context context = getApplicationContext();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Failed to signup!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Something went wrong, please report this", Toast.LENGTH_SHORT).show();
                         showProgress(false);
                     }
                 });
@@ -247,6 +199,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+
                 ResponseBody responseBody = response.body();
                 JSONObject jsonObject = null;
                 try {
@@ -254,7 +207,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                     final String msg = jsonObject.getString("msg");
 
                     if (jsonObject.getBoolean("success")) {
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -275,7 +227,6 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                         });
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -283,91 +234,9 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
                             showProgress(false);
                         }
                     });
-
                 }
             }
         });
-
-    }
-
-    private void validatePhone() {
-        if (TextUtils.isEmpty(phone)) {
-            phoneView.setError(getString(R.string.error_field_required));
-            focusView = phoneView;
-            cancel = true;
-        }
-        if (phone.length() != 10) {
-            phoneView.setError("Enter 10 digit phone number");
-            focusView = phoneView;
-            cancel = true;
-        }
-    }
-
-    private void validatePin() {
-        if (TextUtils.isEmpty(pinCode)) {
-            pinCodeView.setError(getString(R.string.error_field_required));
-            focusView = pinCodeView;
-            cancel = true;
-        }
-
-        if (pinCode.length() != 6) {
-            phoneView.setError("Enter 6 digit pin code");
-            focusView = pinCodeView;
-            cancel = true;
-        }
-    }
-
-    private void validateEmail() {
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            emailView.setError(getString(R.string.error_field_required));
-            focusView = emailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            emailView.setError(getString(R.string.error_invalid_email));
-            focusView = emailView;
-            cancel = true;
-        }
-    }
-
-    private void validatePassword() {
-
-        if (TextUtils.isEmpty(password)) {
-            passwordView.setError(getString(R.string.error_field_required));
-            focusView = passwordView;
-            cancel = true;
-        }
-        else if (!isPasswordValid(password)) {
-            passwordView.setError(getString(R.string.error_short_password));
-            focusView = passwordView;
-            cancel = true;
-        }
-
-        if (TextUtils.isEmpty(passwordVerify)) {
-            passwordVerifyView.setError(getString(R.string.error_field_required));
-            focusView = passwordVerifyView;
-            cancel = true;
-        }
-        else if (!isPasswordValid(passwordVerify)) {
-            passwordView.setError(getString(R.string.error_short_password));
-            focusView = passwordView;
-            cancel = true;
-        }
-
-
-        if (!password.equals(passwordVerify)) {
-            passwordVerifyView.setError(getString(R.string.error_password_doesnt_match));
-            focusView = passwordVerifyView;
-            cancel = true;
-        }
-    }
-
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 7;
     }
 
     /**
@@ -406,58 +275,9 @@ public class SignupActivity extends AppCompatActivity implements LoaderCallbacks
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(SignupActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        emailView.setAdapter(adapter);
-    }
-
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
 }
+
+
+
 

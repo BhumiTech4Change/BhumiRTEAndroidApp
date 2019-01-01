@@ -68,7 +68,7 @@ public class PasswordResetActivity extends AppCompatActivity implements LoaderCa
         mEmailView = findViewById(R.id.email);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        endpoint = Endpoint.getInstance().getEndpoint();
+        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
         populateAutoComplete();
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);

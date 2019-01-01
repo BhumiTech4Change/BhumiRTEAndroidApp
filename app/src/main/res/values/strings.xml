@@ -56,6 +56,9 @@
     <string name="reset_password_instruction">Please provide your valuable feedback to improve this application</string>
     <string name="text_developed_by">Developed By</string>
     <string name="developer_name_deepak_chethan">Deepak Chethan, Volunteer</string>
+    <string name="api_url">http://13.233.214.238:3000</string>
+    <string name="error_small_phone_number">Enter 10 digit phone number</string>
+    <string name="error_small_pin_code">Enter 6 digit pin code</string>
 
 
 </resources>

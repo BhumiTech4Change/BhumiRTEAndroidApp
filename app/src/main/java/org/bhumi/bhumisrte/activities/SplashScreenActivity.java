@@ -16,6 +16,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        /*
+        * Wait for 500ms and start main activity
+         */
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

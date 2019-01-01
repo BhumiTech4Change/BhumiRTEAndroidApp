@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
 import org.bhumi.bhumisrte.config.Endpoint;
+import org.bhumi.bhumisrte.config.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CheckBox incomeView, communityView, birthView, addressView;
     private SharedPreferences sharedPreferences;
-    private Boolean cancel = false;
     private String SHARED_PREFS_NAME = "user";
     private RelativeLayout relativeLayout;
     private View loginFormView;
     private Calendar myCalendar;
     private String endpoint;
+    private Validator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,18 +88,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         communityView = findViewById(R.id.communityCert);
         birthView = findViewById(R.id.birthCert);
         addressView = findViewById(R.id.addressCert);
-        endpoint = Endpoint.getInstance().getEndpoint();
+
+        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
+        validator = Validator.getInstance(getApplicationContext());
         myCalendar = Calendar.getInstance();
 
         setSupportActionBar(toolbar);
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+
         if (!sharedPreferences.getBoolean("isLoggedIn", false)) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-
-
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
         submit.setOnClickListener(this);
     }
 
@@ -160,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         editor.commit();
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -320,9 +324,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pinCode = pinCodeView.getText().toString();
         dateOfBirth = dateOfBirthView.getText().toString();
         comment = commentView.getText().toString();
+
         email = sharedPreferences.getString("email", null);
         token = sharedPreferences.getString("token", null);
         certificates = "";
+
         if (incomeView.isChecked()) certificates +="Income Certificate, ";
         if (communityView.isChecked()) certificates += "Community Certificate, ";
         if (birthView.isChecked()) certificates += "Birth Certificate, ";
@@ -335,37 +341,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     * Validate the inputs
      */
     private void validateInputFields() {
-        validateInputField(parentName, parentNameView);
-        validateInputField(childName, childNameView);
-        validateInputField(phone, phoneView);
-        validateInputField(pinCode, pinCodeView);
-        validateInputField(dateOfBirth, dateOfBirthView);
-        if (phone.length() != 10) {
-            phoneView.setError("Enter 10 digit phone number");
-            cancel = true;
-        }
-
-        if (pinCode.length() != 6) {
-            pinCodeView.setError("Enter 6 digit pin code");
-            cancel = true;
-        }
-        // CommentView is optional
+        validator.validateText(parentName, parentNameView);
+        validator.validateText(childName, childNameView);
+        validator.validateText(dateOfBirth, dateOfBirthView);
+        validator.validatePhone(phone, phoneView);
+        validator.validatePin(pinCode, pinCodeView);
     }
-
-    private void validateInputField(String value, View editTextView) {
-        if (TextUtils.isEmpty(value)){
-            parentNameView.setError(getString(R.string.error_field_required));
-            cancel = true;
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
-        cancel = false;
+        validator.reset();
+
         extractValues();
         validateInputFields();
-        if (cancel) {
+        if (!validator.isOkay()) {
             Toast.makeText(getApplicationContext(), "Fix the errors and try again!", Toast.LENGTH_LONG).show();
         }
         else {
@@ -373,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 sendData();
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(),"Unable to submit data", Toast.LENGTH_LONG).show();
-                e.printStackTrace();
             }
         }
     }

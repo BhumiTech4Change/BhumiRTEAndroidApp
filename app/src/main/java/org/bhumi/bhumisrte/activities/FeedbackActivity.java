@@ -43,7 +43,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         feedbackTextVeiw = findViewById(R.id.feedback_edittext);
         buttonView = findViewById(R.id.feedback_submit_button);
         progressBar = findViewById(R.id.progress);
-        endpoint = Endpoint.getInstance().getEndpoint();
+        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
         buttonView.setOnClickListener(this);
 
     }
