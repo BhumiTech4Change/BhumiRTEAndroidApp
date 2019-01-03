@@ -38,7 +38,7 @@
     <string name="button_signin">Signin</string>
     <string name="button_signup">Signup</string>
     <string name="button_forgot_password">Forgot password?</string>
-    <string name="button_know_more">Click to know more</string>
+    <string name="button_know_more">Click here to know more</string>
     <string name="button_reset_password">Reset password</string>
 
 

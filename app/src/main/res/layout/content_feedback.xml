@@ -56,12 +56,6 @@
 
     </RelativeLayout>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        android:id="@+id/progress"
-      />
+
 
 </RelativeLayout>
