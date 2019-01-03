@@ -5,27 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,14 +21,12 @@ import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
 import org.bhumi.bhumisrte.config.Endpoint;
+import org.bhumi.bhumisrte.config.User;
 import org.bhumi.bhumisrte.config.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -52,8 +36,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -76,12 +58,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     TextView websiteView;
 
     // Data variables
-    private String SHARED_PREFS_NAME = "user";
     private String email;
     private String password;
     private RelativeLayout relativeLayout;
     private String endpoint;
     private Validator validator;
+    private User user;
 
 
     @Override
@@ -106,8 +88,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         websiteView = findViewById(R.id.websiteTextView);
         passwordView = findViewById(R.id.password);
         validator = Validator.getInstance(getApplicationContext());
+        user = User.getCurrentUser(getApplicationContext());
         signUpButton.setOnClickListener(this);
         websiteView.setOnClickListener(this);
+
         emailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +99,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                     attemptLogin();
                 }
                 catch (Exception ex){
-                    ex.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Unable to signin", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -186,8 +169,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(context, "Failed to signin!", Toast.LENGTH_LONG).show();
-                showProgress(false);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Failed to signin!", Toast.LENGTH_LONG).show();
+                        showProgress(false);
+                    }
+                });
+
             }
 
             @Override
@@ -199,13 +188,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                     final String msg = jsonObject.getString("msg");
                     if (jsonObject.getBoolean("success")) {
                         // Successfully logged in
-                        String jwt = jsonObject.getString("token");
-                        SharedPreferences sharedPreferences  = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean("isLoggedIn", true);
-                        editor.putString("token", jwt );
-                        editor.putString("email",email);
-                        editor.commit();
+                        String token = jsonObject.getString("token");
+                        user.login(email, token);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

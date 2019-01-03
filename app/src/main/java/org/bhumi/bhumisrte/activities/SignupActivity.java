@@ -210,7 +210,6 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showProgress(false);
                                 Intent intent = new Intent(context, LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);

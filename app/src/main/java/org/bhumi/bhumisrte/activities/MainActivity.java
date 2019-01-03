@@ -5,16 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +25,7 @@ import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
 import org.bhumi.bhumisrte.config.Endpoint;
+import org.bhumi.bhumisrte.config.User;
 import org.bhumi.bhumisrte.config.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,13 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String parentName, phone, childName, pinCode, dateOfBirth, comment, email, token, certificates;
 
     private CheckBox incomeView, communityView, birthView, addressView;
-    private SharedPreferences sharedPreferences;
-    private String SHARED_PREFS_NAME = "user";
     private RelativeLayout relativeLayout;
     private View loginFormView;
     private Calendar myCalendar;
     private String endpoint;
     private Validator validator;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,19 +85,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         communityView = findViewById(R.id.communityCert);
         birthView = findViewById(R.id.birthCert);
         addressView = findViewById(R.id.addressCert);
+        user = User.getCurrentUser(getApplicationContext());
 
         endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
         validator = Validator.getInstance(getApplicationContext());
         myCalendar = Calendar.getInstance();
 
         setSupportActionBar(toolbar);
-        sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
 
-        if (!sharedPreferences.getBoolean("isLoggedIn", false)) {
+        if (!user.isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -155,15 +153,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("token");
-                        editor.remove("isLoggedIn");
-                        editor.remove("email");
-                        editor.commit();
+                        user.logout();
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(intent);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -186,16 +178,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void sendData() throws IOException{
         OkHttpClient client = new OkHttpClient();
-        String mEmail = URLEncoder.encode(email, "UTF-8").replace("+","%20");
-        String mPhone = URLEncoder.encode(phone, "UTF-8").replace("+","%20");
-        String mParentName = URLEncoder.encode(parentName, "UTF-8").replace("+","%20");
-        String mChildName = URLEncoder.encode(childName, "UTF-8").replace("+","%20");
-        String mDateOfBirth = URLEncoder.encode(dateOfBirth, "UTF-8").replace("+","%20");
-        String mComment = URLEncoder.encode(comment, "UTF-8").replace("+","%20");
-        String mPinCode = URLEncoder.encode(pinCode, "UTF-8").replace("+","%20");
-        String mToken = URLEncoder.encode(token, "UTF-8").replace("+","%20");
-        String mCertificates = URLEncoder.encode(certificates, "UTF-8").replace("+","%20");
-
+        String mEmail = validator.encode(email);
+        String mPhone = validator.encode(phone);
+        String mParentName = validator.encode(parentName);
+        String mChildName = validator.encode(childName);
+        String mDateOfBirth = validator.encode(dateOfBirth);
+        String mComment = validator.encode(comment);
+        String mPinCode = validator.encode(pinCode);
+        String mToken = validator.encode(token);
+        String mCertificates = validator.encode(certificates);
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         showProgress(true);
         RequestBody body = RequestBody.create(mediaType, "email="+mEmail+
@@ -325,14 +316,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dateOfBirth = dateOfBirthView.getText().toString();
         comment = commentView.getText().toString();
 
-        email = sharedPreferences.getString("email", null);
-        token = sharedPreferences.getString("token", null);
+        email = user.getEmail();
+        token = user.getToken();
         certificates = "";
 
         if (incomeView.isChecked()) certificates +="Income Certificate, ";
         if (communityView.isChecked()) certificates += "Community Certificate, ";
         if (birthView.isChecked()) certificates += "Birth Certificate, ";
-        if (addressView.isChecked()) certificates += "Address Proof.";
+        if (addressView.isChecked()) certificates += "Address Proof";
 
 
     }
@@ -354,15 +345,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         extractValues();
         validateInputFields();
-        if (!validator.isOkay()) {
-            Toast.makeText(getApplicationContext(), "Fix the errors and try again!", Toast.LENGTH_LONG).show();
-        }
-        else {
+        if (validator.isOkay()) {
             try {
                 sendData();
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(),"Unable to submit data", Toast.LENGTH_LONG).show();
             }
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Fix the errors and try again!", Toast.LENGTH_LONG).show();
         }
     }
 }

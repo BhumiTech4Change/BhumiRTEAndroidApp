@@ -65,7 +65,7 @@ public class Validator {
     }
 
     public void checkPasswordsMatch(String password, String passwordVerify, EditText passwordView) {
-        if (password == passwordVerify) {
+        if (!password.equals(passwordVerify)) {
             passwordView.setError(context.getString(R.string.error_password_doesnt_match));
             cancel = false;
         }

@@ -28,7 +28,6 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.CreditActivity"
