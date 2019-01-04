@@ -1,7 +1,7 @@
 /*
  * A singleton class that supplies the url pointing to the RESTful api (Bhumi-Authenticator)
  */
-package org.bhumi.bhumisrte.config;
+package org.bhumi.bhumisrte.API;
 
 import android.content.Context;
 

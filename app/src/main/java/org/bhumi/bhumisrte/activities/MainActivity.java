@@ -24,14 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.config.Endpoint;
-import org.bhumi.bhumisrte.config.User;
-import org.bhumi.bhumisrte.config.Validator;
+import org.bhumi.bhumisrte.API.Endpoint;
+import org.bhumi.bhumisrte.API.User;
+import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -135,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signout(); break;
             case R.id.credit:
                 startActivity(new Intent(this, CreditActivity.class));
+                break;
+            case R.id.aboutRTE:
+                startActivity(new Intent(this, AboutRteActivity.class));
                 break;
             case R.id.feedback:
                 startActivity(new Intent(this, FeedbackActivity.class));
@@ -246,7 +248,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         });
                     }
                 } catch (JSONException e) {
-                   Toast.makeText(getApplicationContext(), "Something went wrong, please report to us!", Toast.LENGTH_LONG).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Something went wrong, please report to us!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 }
             }
         });

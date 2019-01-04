@@ -1,4 +1,4 @@
-package org.bhumi.bhumisrte.config;
+package org.bhumi.bhumisrte.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;

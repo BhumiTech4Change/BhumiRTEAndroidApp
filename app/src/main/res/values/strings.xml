@@ -40,12 +40,10 @@
     <string name="button_forgot_password">Forgot password?</string>
     <string name="button_know_more">Click here to know more</string>
     <string name="button_reset_password">Reset password</string>
+    <string name="button_volunteer_signup">Sign up to Volunteer</string>
 
 
     <!-- Instructions and descriptions-->
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="forgot_password_instructions">Please enter your registered email to get the password reset link.</string>
     <string name="bhumi_logo_content_description">Bhumi NGO logo</string>
 
@@ -53,12 +51,16 @@
     <string name="option_singout">Signout</string>
     <string name="option_give_feedback">Give Feedback</string>
     <string name="option_credits">Credits</string>
+    <string name="option_about_rte">About RTE</string>
     <string name="reset_password_instruction">Please provide your valuable feedback to improve this application</string>
     <string name="text_developed_by">Developed By</string>
     <string name="developer_name_deepak_chethan">Deepak Chethan, Volunteer</string>
     <string name="api_url">http://13.233.214.238:3000</string>
     <string name="error_small_phone_number">Enter 10 digit phone number</string>
     <string name="error_small_pin_code">Enter 6 digit pin code</string>
+    <string name="title_activity_about_rte">About RTE</string>
+
+
 
 
 </resources>

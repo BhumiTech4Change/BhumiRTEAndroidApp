@@ -1,8 +1,7 @@
-package org.bhumi.bhumisrte.config;
+package org.bhumi.bhumisrte.API;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 
 import org.bhumi.bhumisrte.R;

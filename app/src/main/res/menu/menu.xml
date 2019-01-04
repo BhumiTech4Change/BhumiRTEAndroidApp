@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+
+    <item
+        android:id="@+id/aboutRTE"
+        android:title="@string/option_about_rte"
+        app:showAsAction="never"
+        />
+
     <item
         android:id="@+id/credit"
         android:title="@string/option_credits"

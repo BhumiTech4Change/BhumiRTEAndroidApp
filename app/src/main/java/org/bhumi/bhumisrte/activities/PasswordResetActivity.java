@@ -6,13 +6,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.database.Cursor;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -23,8 +19,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.config.Endpoint;
-import org.bhumi.bhumisrte.config.Validator;
+import org.bhumi.bhumisrte.API.Endpoint;
+import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONObject;
 
 import okhttp3.Call;

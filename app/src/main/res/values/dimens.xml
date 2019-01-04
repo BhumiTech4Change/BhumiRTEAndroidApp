@@ -4,4 +4,5 @@
     <dimen name="half_dimen">8dp</dimen>
     <dimen name="seperator_dimen">2dp</dimen>
     <dimen name="large_dimen">32dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

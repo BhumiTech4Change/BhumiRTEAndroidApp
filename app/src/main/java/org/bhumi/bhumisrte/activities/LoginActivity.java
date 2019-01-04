@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.config.Endpoint;
-import org.bhumi.bhumisrte.config.User;
-import org.bhumi.bhumisrte.config.Validator;
+import org.bhumi.bhumisrte.API.Endpoint;
+import org.bhumi.bhumisrte.API.User;
+import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
