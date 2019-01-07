@@ -8,22 +8,12 @@
     tools:context=".activities.CreditActivity"
     android:padding="16dp"
     tools:showIn="@layout/activity_credit">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Base.TextAppearance.AppCompat.Large"
-        android:textAlignment="center"
-        android:id="@+id/header"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:text="Bhumi RTE"/>
+    
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_height="150dp"
-        android:layout_below="@id/header"
         android:id="@+id/logo"
         android:layout_marginTop="@dimen/default_margin"
         android:src="@drawable/bhumi_logo"/>
