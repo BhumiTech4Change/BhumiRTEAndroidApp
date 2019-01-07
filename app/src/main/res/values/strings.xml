@@ -2,7 +2,7 @@
     <string name="app_name">Bhumi RTE</string>
 
     <!-- Activity titles -->
-    <string name="title_activity_main">Main Activity</string>
+    <string name="title_activity_main">Data Collection</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
     <string name="title_activity_signup">Sign in</string>
     <string name="title_activity_credit">Credits</string>
