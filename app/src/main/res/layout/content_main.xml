@@ -133,12 +133,6 @@
                 android:layout_marginBottom="5dp"
                 android:id="@+id/checkbox_container">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:id="@+id/checkboxFirstLine">
 
 
                 <CheckBox
@@ -159,15 +153,8 @@
 
 
 
-            </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/checkboxSecondLine">
 
             <CheckBox
                 android:layout_width="match_parent"
@@ -185,7 +172,7 @@
                 android:text="@string/prompt_checkbox_address_proof"
                 android:layout_height="wrap_content" />
 
-                </LinearLayout>
+
 
             </LinearLayout>
 
