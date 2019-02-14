@@ -15,11 +15,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.LoginActivity"
-            android:label="Login"
+            android:label="@string/login"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SignupActivity"
-            android:label="Signup"
+            android:label="@string/signup"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MainActivity"
@@ -28,7 +28,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.CreditActivity"
-            android:label="Credits"
+            android:label="@string/credits"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -38,7 +38,7 @@
         </activity>
         <activity
             android:name=".activities.PasswordResetActivity"
-            android:label="Reset Password"
+            android:label="@string/reset_password"
             android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -51,7 +51,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -59,8 +59,10 @@
     <string name="error_small_phone_number">Enter 10 digit phone number</string>
     <string name="error_small_pin_code">Enter 6 digit pin code</string>
     <string name="title_activity_about_rte">About RTE</string>
-
-
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="credits">Credits</string>
+    <string name="reset_password">Reset Password</string>
 
 
 </resources>
