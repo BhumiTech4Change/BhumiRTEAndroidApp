@@ -57,6 +57,7 @@
     <string name="developer_name_deepak_chethan">Deepak Chethan, Volunteer</string>
     <string name="api_url">http://13.233.214.238:3000</string>
     <string name="volunteer_url">http://rte25.bhumi.ngo/volunteer/?utm_srouce=BRapp</string>
+    <string name="bhumi_url">"http://rte25.bhumi.ngo/"</string>
     <string name="error_small_phone_number">Enter 10 digit phone number</string>
     <string name="error_small_pin_code">Enter 6 digit pin code</string>
     <string name="title_activity_about_rte">About RTE</string>

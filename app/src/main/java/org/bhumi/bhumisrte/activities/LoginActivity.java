@@ -41,11 +41,6 @@ import okhttp3.ResponseBody;
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
     // UI references.
     View loginFormView;
     AutoCompleteTextView emailView;
@@ -72,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
         //initialize data
         endpoint = getString(R.string.api_url);
+        validator = Validator.getInstance(getApplicationContext());
+        user = User.getCurrentUser(getApplicationContext());
 
         // Instantiate ui references
         loginFormView = findViewById(R.id.login_form);
@@ -86,8 +83,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         progressView = findViewById(R.id.login_progress);
         websiteView = findViewById(R.id.websiteTextView);
         passwordView = findViewById(R.id.password);
-        validator = Validator.getInstance(getApplicationContext());
-        user = User.getCurrentUser(getApplicationContext());
+
         signUpButton.setOnClickListener(this);
         websiteView.setOnClickListener(this);
 
@@ -109,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.websiteTextView:
-                String url = "http://rte25.bhumi.ngo/";
+                String url = getString(R.string.bhumi_url);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);
@@ -151,6 +147,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         }
     }
 
+    /*
+    Actual method that handles the signin
+     */
     private void signIn() throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
         final Context context = getApplicationContext();

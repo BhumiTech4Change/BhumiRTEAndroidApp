@@ -27,16 +27,22 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/*
+ * Activity to take the feedback from the logged in user
+ */
 public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Views
     EditText feedbackTextView;
     Button buttonView;
     ProgressBar progressView;
     View feedbackFormView;
 
+    // Resources
     String endpoint;
     User user;
     Validator validator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +51,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // View Instantiations
         feedbackTextView = findViewById(R.id.feedback_edittext);
         buttonView = findViewById(R.id.feedback_submit_button);
         progressView = findViewById(R.id.progress);
         feedbackFormView = findViewById(R.id.feedback_form);
 
-
+        // Resource instantiations
         endpoint = getString(R.string.api_url);
         user = User.getCurrentUser(getApplicationContext());
         validator = Validator.getInstance(getApplicationContext());
@@ -59,6 +66,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /*
+    OnClick handler to submit the feedback data
+     */
     @Override
     public void onClick(View v){
         final String feedbackText = feedbackTextView.getText().toString();

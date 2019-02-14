@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.CreditActivity"
+    tools:context=".activities.CreditsActivity"
     android:padding="16dp"
     tools:showIn="@layout/activity_credit">
 

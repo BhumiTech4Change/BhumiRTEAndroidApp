@@ -43,23 +43,29 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+/*
+ * Home Activity
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    // UI references
     private ProgressBar progressView;
     private EditText parentNameView;
     private EditText phoneView;
     private EditText childNameView;
     private EditText pinCodeView;
-    private  EditText dateOfBirthView;
+    private EditText dateOfBirthView;
     private EditText commentView;
-    private  Button submit;
+    private Button submit;
     private Toolbar toolbar;
-    private String parentName, phone, childName, pinCode, dateOfBirth, comment, email, token, certificates;
-
     private CheckBox incomeView, communityView, birthView, addressView;
     private RelativeLayout relativeLayout;
     private View loginFormView;
     private Calendar myCalendar;
+
+    // Data fields
+    private String parentName, phone, childName, pinCode;
+    private String dateOfBirth, comment, email, token, certificates;
     private String endpoint;
     private Validator validator;
     private User user;
@@ -68,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Instantiate UI References
         toolbar = findViewById(R.id.toolbar);
         parentNameView = findViewById(R.id.parentname);
         phoneView = findViewById(R.id.phone);
@@ -85,18 +93,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addressView = findViewById(R.id.addressCert);
         user = User.getCurrentUser(getApplicationContext());
 
+        // Intialize the data
         endpoint = getString(R.string.api_url);
         validator = Validator.getInstance(getApplicationContext());
         myCalendar = Calendar.getInstance();
 
         setSupportActionBar(toolbar);
 
+        // Check user loggedIn
         if (!user.isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
 
+        // DOB field handler
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -126,13 +137,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onCreateOptionsMenu(menu);
     }
 
+    /*
+    Menubar click handler
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.signout:
                 signout(); break;
             case R.id.credit:
-                startActivity(new Intent(this, CreditActivity.class));
+                startActivity(new Intent(this, CreditsActivity.class));
                 break;
             case R.id.aboutRTE:
                 startActivity(new Intent(this, AboutRteActivity.class));
@@ -168,17 +182,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
 
-
+    /*
+     * Updates the input field based on the selected date from calendar
+     */
     private void updateLabel() {
         String myFormat = "dd-MM-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dateOfBirthView.setText(sdf.format(myCalendar.getTime()));
     }
 
-
-
+    /*
+     * Extract data, validate and submit data
+     */
     private void sendData() throws IOException{
         OkHttpClient client = new OkHttpClient();
+
+        // Encode the input fields
         String mEmail = validator.encode(email);
         String mPhone = validator.encode(phone);
         String mParentName = validator.encode(parentName);
@@ -188,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String mPinCode = validator.encode(pinCode);
         String mToken = validator.encode(token);
         String mCertificates = validator.encode(certificates);
+
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         showProgress(true);
         RequestBody body = RequestBody.create(mediaType, "email="+mEmail+
@@ -346,6 +366,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         validator.validatePin(pinCode, pinCodeView);
     }
 
+    /*
+     * OnClick handler to submit data
+     */
     @Override
     public void onClick(View v) {
         validator.reset();

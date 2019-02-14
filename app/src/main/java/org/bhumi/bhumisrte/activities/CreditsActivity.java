@@ -6,7 +6,10 @@ import android.support.v7.widget.Toolbar;
 
 import org.bhumi.bhumisrte.R;
 
-public class CreditActivity extends AppCompatActivity {
+/*
+ Activity to display the credits information
+ */
+public class CreditsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

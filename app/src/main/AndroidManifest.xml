@@ -27,7 +27,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.CreditActivity"
+            android:name=".activities.CreditsActivity"
             android:label="@string/credits"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"

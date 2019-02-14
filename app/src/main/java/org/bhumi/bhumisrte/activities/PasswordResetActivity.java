@@ -40,6 +40,8 @@ public class PasswordResetActivity extends AppCompatActivity implements OnClickL
     private AutoCompleteTextView emailView;
     private View mProgressView;
     private View mLoginFormView;
+
+    // Few classes
     private String endpoint;
     private Validator validator;
     private Button mEmailSignInButton;
@@ -74,6 +76,9 @@ public class PasswordResetActivity extends AppCompatActivity implements OnClickL
     }
 
 
+    /*
+     * Make an attempt to reset
+     */
     private void attemptPasswordResetRequest() {
 
         // Reset errors.
@@ -99,6 +104,9 @@ public class PasswordResetActivity extends AppCompatActivity implements OnClickL
         }
     }
 
+    /*
+     * Construct and send the reset password
+     */
     private void tryResetPassword(String email) {
 
         final Context context = getApplicationContext();
@@ -187,6 +195,9 @@ public class PasswordResetActivity extends AppCompatActivity implements OnClickL
         }
     }
 
+    /*
+     * OnClick Handler to reset password
+     */
     @Override
     public void onClick(View v) {
         attemptPasswordResetRequest();
