@@ -3,7 +3,9 @@ package org.bhumi.bhumisrte.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
@@ -50,7 +52,6 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
     EditText phoneView;
     Button signUpButton;
     EditText pinCodeView;
-    private View focusView;
 
     // Data containers
     private String email;
@@ -58,10 +59,33 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
     private String passwordVerify;
     private String phone;
     private String pinCode;
-    private Boolean cancel;
     private String endpoint;
     private Validator validator;
 
+
+    @Override
+    public void onBackPressed() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+            builder.setTitle("Quit?").setMessage("Do you really want to quit ?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+    }
+
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
