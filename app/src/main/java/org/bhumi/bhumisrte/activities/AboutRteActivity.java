@@ -15,6 +15,7 @@ import org.bhumi.bhumisrte.R;
 
 public class AboutRteActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Views
     private TextView paragraphOne;
     private TextView paragraphTwo;
     private TextView paragraphThree;
@@ -28,6 +29,7 @@ public class AboutRteActivity extends AppCompatActivity implements View.OnClickL
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // View initializatons
         paragraphOne = findViewById(R.id.firstParagraph);
         paragraphTwo = findViewById(R.id.secondParagraph);
         paragraphThree = findViewById(R.id.thirdParagraph);
@@ -42,6 +44,10 @@ public class AboutRteActivity extends AppCompatActivity implements View.OnClickL
         volunteerSignUp.setOnClickListener(this);
     }
 
+    /*
+    Renders text with styling
+    TODO: Extract string resource, Note formatting must be preserved
+     */
     private void setUpText() {
         Spanned paragraph_one = Html.fromHtml("The <strong>Right to Education (RTE)</strong>" +
                 " act of 2009 made India one of the very few countries in the world to make " +
@@ -69,9 +75,12 @@ public class AboutRteActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /*
+    OnClick Handler for the volunteer registration button
+     */
     @Override
     public void onClick(View v) {
-        String url = "http://rte25.bhumi.ngo/volunteer/?utm_srouce=BRapp";
+        String url = getString(R.string.volunteer_url);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         startActivity(intent);
