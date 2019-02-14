@@ -61,27 +61,7 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
     private String pinCode;
     private String endpoint;
     private Validator validator;
-
-
-    @Override
-    public void onBackPressed() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
-            builder.setTitle("Quit?").setMessage("Do you really want to quit ?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.show();
-    }
-
-
+    
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
