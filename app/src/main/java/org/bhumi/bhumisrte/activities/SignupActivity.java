@@ -20,7 +20,6 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.API.Endpoint;
 import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +69,7 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
         setContentView(R.layout.activity_signup);
 
         validator = Validator.getInstance(getApplicationContext());
-        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
+        endpoint = getString(R.string.api_url);
 
         // Instantiate the views
         emailView = findViewById(R.id.email);

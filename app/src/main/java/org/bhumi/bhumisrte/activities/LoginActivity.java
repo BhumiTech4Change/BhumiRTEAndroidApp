@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.API.Endpoint;
 import org.bhumi.bhumisrte.API.User;
 import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONException;
@@ -72,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         setContentView(R.layout.activity_login);
 
         //initialize data
-        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
+        endpoint = getString(R.string.api_url);
 
         // Instantiate ui references
         loginFormView = findViewById(R.id.login_form);

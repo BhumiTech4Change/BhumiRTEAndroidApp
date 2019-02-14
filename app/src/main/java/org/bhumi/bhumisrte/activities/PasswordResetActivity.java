@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.API.Endpoint;
 import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONObject;
 
@@ -54,7 +53,7 @@ public class PasswordResetActivity extends AppCompatActivity implements OnClickL
         emailView = findViewById(R.id.email);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
+        endpoint = getString(R.string.api_url);
         validator = Validator.getInstance(getApplicationContext());
 
         mEmailSignInButton = findViewById(R.id.email_sign_in_button);

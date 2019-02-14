@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.API.Endpoint;
 import org.bhumi.bhumisrte.API.User;
 import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONException;
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addressView = findViewById(R.id.addressCert);
         user = User.getCurrentUser(getApplicationContext());
 
-        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
+        endpoint = getString(R.string.api_url);
         validator = Validator.getInstance(getApplicationContext());
         myCalendar = Calendar.getInstance();
 

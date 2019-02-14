@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.bhumi.bhumisrte.R;
-import org.bhumi.bhumisrte.API.Endpoint;
 import org.bhumi.bhumisrte.API.User;
 import org.bhumi.bhumisrte.API.Validator;
 import org.json.JSONException;
@@ -52,7 +51,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         feedbackFormView = findViewById(R.id.feedback_form);
 
 
-        endpoint = Endpoint.getInstance(getApplicationContext()).getEndpoint();
+        endpoint = getString(R.string.api_url);
         user = User.getCurrentUser(getApplicationContext());
         validator = Validator.getInstance(getApplicationContext());
 
