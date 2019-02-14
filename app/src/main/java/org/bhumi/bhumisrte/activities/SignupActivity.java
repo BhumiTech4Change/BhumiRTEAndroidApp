@@ -61,7 +61,7 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
     private String pinCode;
     private String endpoint;
     private Validator validator;
-    
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
@@ -195,7 +195,7 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
                             @Override
                             public void run() {
                                 Intent intent = new Intent(context, LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
                                 startActivity(intent);
                                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                             }

@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Check user loggedIn
         if (!user.isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            finish();
             startActivity(intent);
         }
 
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         user.logout();
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        finish();
                         startActivity(intent);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {

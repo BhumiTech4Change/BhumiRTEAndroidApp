@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                             @Override
                             public void run() {
                                 Intent intent = new Intent(context, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
                                 startActivity(intent);
                                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                             }
