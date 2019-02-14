@@ -13,12 +13,20 @@ public class Validator {
     private static Context context;
     private boolean cancel = true;
 
+    /*
+    Singleton implementation
+    @param context of the calling class
+    @return Validator instance
+     */
     public static Validator getInstance(Context mContext) {
         context = mContext;
         return instance;
     }
 
-    // Validation logic
+    /*
+    Validation methods for various input fields
+     */
+    // Phone number
     public void validatePhone(String phoneNumber, EditText phoneView) {
         if (TextUtils.isEmpty(phoneNumber)) {
             phoneView.setError(context.getString(R.string.error_field_required));
@@ -30,6 +38,7 @@ public class Validator {
         }
     }
 
+    // Pin code
     public void validatePin(String pinCode, EditText pinCodeView) {
         if (TextUtils.isEmpty(pinCode)) {
             pinCodeView.setError(context.getString(R.string.error_field_required));
@@ -41,6 +50,7 @@ public class Validator {
         }
     }
 
+    // Email
     public void validateEmail(String email, EditText emailView) {
         if (TextUtils.isEmpty(email)) {
             emailView.setError(context.getString(R.string.error_field_required));
@@ -52,6 +62,7 @@ public class Validator {
         }
     }
 
+    // Password
     public void validatePassword(String password, EditText passwordView) {
         if (TextUtils.isEmpty(password)) {
             passwordView.setError(context.getString(R.string.error_field_required));
@@ -63,6 +74,7 @@ public class Validator {
         }
     }
 
+    // Check if the password and retype passwords match
     public void checkPasswordsMatch(String password, String passwordVerify, EditText passwordView) {
         if (!password.equals(passwordVerify)) {
             passwordView.setError(context.getString(R.string.error_password_doesnt_match));
@@ -70,6 +82,7 @@ public class Validator {
         }
     }
 
+    // Validate default text fields
     public void validateText(String text, EditText editText) {
         if (TextUtils.isEmpty(text)){
             editText.setError(context.getString(R.string.error_field_required));
@@ -77,22 +90,27 @@ public class Validator {
         }
     }
 
+    // Reset the validator
     public void reset() {
         this.cancel = true;
     }
 
+    // Check if all the fields are properly set
     public boolean isOkay() {
         return cancel;
     }
 
+    // Check password length
     private boolean isPasswordInvalid(String password) {
         return password.length() < 8;
     }
 
+    // Check if the email is valid
     private boolean isEmailInvalid(String email) {
         return email.contains("@");
     }
 
+    // Encode the text to UTF-8
     public String encode(String text) {
         return URLEncoder.encode(text).replace("+", "%20");
     }
