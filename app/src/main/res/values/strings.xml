@@ -67,7 +67,7 @@
 
 
     <!-- URLS -->
-    <string name="api_url">http://13.233.214.238:3000</string>
+    <string name="api_url">http://13.233.122.49:3000</string>
     <string name="volunteer_url">http://rte25.bhumi.ngo/volunteer/?utm_srouce=BRapp</string>
     <string name="bhumi_url">"http://rte25.bhumi.ngo/"</string>
 </resources>
