@@ -73,7 +73,7 @@ public class SignupActivity extends AppCompatActivity implements  OnClickListene
         setContentView(R.layout.activity_signup);
 
         validator = Validator.getInstance(getApplicationContext());
-        endpoint = getString(R.string.api_url);
+        endpoint = getString(R.string.auth_api_url);
 
         // Instantiate the views
         emailView = findViewById(R.id.email);

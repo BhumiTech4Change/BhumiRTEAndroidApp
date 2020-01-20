@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user = User.getCurrentUser(getApplicationContext());
 
         // Intialize the data
-        endpoint = getString(R.string.api_url);
+        endpoint = getString(R.string.rte_api_url);
         validator = Validator.getInstance(getApplicationContext());
         myCalendar = Calendar.getInstance();
 

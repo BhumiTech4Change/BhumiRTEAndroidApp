@@ -67,7 +67,8 @@
 
 
     <!-- URLS -->
-    <string name="api_url">http://13.233.122.49:3000</string>
+    <string name="auth_api_url">http://ec2-35-154-167-215.ap-south-1.compute.amazonaws.com:1997</string>
+    <string name="rte_api_url">http://ec2-35-154-167-215.ap-south-1.compute.amazonaws.com:5432</string>
     <string name="volunteer_url">http://rte25.bhumi.ngo/volunteer/?utm_srouce=BRapp</string>
     <string name="bhumi_url">"http://rte25.bhumi.ngo/"</string>
 </resources>

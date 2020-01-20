@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         setContentView(R.layout.activity_login);
 
         //initialize data
-        endpoint = getString(R.string.api_url);
+        endpoint = getString(R.string.auth_api_url);
         validator = Validator.getInstance(getApplicationContext());
         user = User.getCurrentUser(getApplicationContext());
 

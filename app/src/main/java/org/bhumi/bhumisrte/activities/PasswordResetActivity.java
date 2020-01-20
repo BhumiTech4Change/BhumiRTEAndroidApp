@@ -55,7 +55,7 @@ public class PasswordResetActivity extends AppCompatActivity implements OnClickL
         emailView = findViewById(R.id.email);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        endpoint = getString(R.string.api_url);
+        endpoint = getString(R.string.auth_api_url);
         validator = Validator.getInstance(getApplicationContext());
 
         mEmailSignInButton = findViewById(R.id.email_sign_in_button);

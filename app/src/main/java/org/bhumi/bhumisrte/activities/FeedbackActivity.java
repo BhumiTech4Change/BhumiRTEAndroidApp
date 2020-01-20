@@ -58,7 +58,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         feedbackFormView = findViewById(R.id.feedback_form);
 
         // Resource instantiations
-        endpoint = getString(R.string.api_url);
+        endpoint = getString(R.string.rte_api_url);
         user = User.getCurrentUser(getApplicationContext());
         validator = Validator.getInstance(getApplicationContext());
 
