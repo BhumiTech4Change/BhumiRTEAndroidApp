@@ -289,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(), "Something went wrong, please report to us!", Toast.LENGTH_LONG).show();
+                            showProgress(false);
                         }
                     });
 
