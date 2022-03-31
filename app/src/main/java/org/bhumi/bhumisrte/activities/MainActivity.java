@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showProgress(true);
         RequestBody body = RequestBody.create(mediaType, "email="+mEmail+
                 "&phone="+mPhone+"&parentName="+mParentName+"&childName="+mChildName+"+" +
-                "&dateOfBirth="+mDateOfBirth+"&pinCode="+mPinCode+"&certificate="+mCertificates+
+                "&dateOfBirth="+mDateOfBirth+"&pin="+mPinCode+"&certificate="+mCertificates+
                 "&comment="+mComment);
 
         Request request = new Request.Builder()
